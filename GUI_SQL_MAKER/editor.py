@@ -1,6 +1,7 @@
 import sys
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
+from PyQt5.QtCore import *
 from PyQt5 import uic
 import mysql.connector
 import pandas as pd
@@ -21,6 +22,92 @@ class WindowClass(QMainWindow, from_class):
         self.btnMkTable.clicked.connect(self.tableOpenFile)
         self.make_it.clicked.connect(self.make_table)
         self.btnDel.clicked.connect(self.del_table)
+        self.btnInsert.clicked.connect(self.insert_data)
+        self.progressBar.valueChanged.connect(self.printValue)
+
+    
+    
+    def printValue(self):
+        pass
+    
+
+    def insert_data(self):
+        items = []
+        for result_iterator in self.result:
+            items.append(result_iterator[0])
+
+        item, ok = QInputDialog.getItem(self, 'QInputDialog - insert data',
+                                            'table:', items, 0, False)
+
+        if ok and item:
+            stra = item
+        
+        name = QFileDialog.getOpenFileName(self)[0]
+        if name[-3:] == "csv":
+            try:
+                df = pd.DataFrame(pd.read_csv(name))
+            except:
+                df = pd.DataFrame(pd.read_csv(name, encoding='EUC-KR'))
+            
+        
+        elif name[-4:] == "xlsx":
+            try:
+                df = pd.DataFrame(pd.read_excel(name))
+            except:
+                df = pd.DataFrame(pd.read_excel(name, encoding='EUC-KR'))
+
+        df = df.fillna(0)
+        x_count = df.shape[1]
+        sql2 = "insert into " + stra + " values ("
+        for i in range(x_count):
+            sql2 = sql2 + " %s"
+            if(i != x_count -1):
+                sql2 = sql2 + ", "
+        sql2 = sql2 + " );"    
+
+        
+        count = 0
+        cal = 1
+        max = 100
+
+
+        for i, row in df.iterrows():
+            self.cursor.execute(sql2, tuple(row))
+            self.local.commit()
+            count += 1
+            if count >= len(df)/max * cal:
+                self.progressBar.setValue((cal))
+                cal += 1;
+
+        self.cursor.execute(" show columns from " + stra)
+
+        columns_list = []
+        result = self.cursor.fetchall()
+        for row in result:
+            row[0].replace("(", "")
+            row[0].replace("'", "")
+            columns_list.append(row[0])
+    
+
+        self.show_table.setColumnCount(len(columns_list))
+        self.show_table.setHorizontalHeaderLabels(each for each in columns_list)
+
+        self.cursor.execute("select *  from " + stra)
+
+        result1 = self.cursor.fetchall()
+        for i in range(len(result1)):
+            row = self.show_table.rowCount()
+            self.show_table.insertRow(row)
+            for j in range(len(columns_list)):
+                self.show_table.setItem(row, j, QTableWidgetItem(str(result1[i][j])))
+
+        
+
+        
+
+
+        
+
 
     def del_table(self):
         items = []
@@ -37,14 +124,40 @@ class WindowClass(QMainWindow, from_class):
         self.cursor.execute(sql2)
         self.SeeTable()
 
+        
+
 
         
 
     def make_table(self):
         self.cursor.execute(self.sql)
         #self.state_line_2.setText(" )
-        self.textEdit.setText("success making " + self.table_name)
+        self.textEdit.setText("success make table!! name : " + self.table_name)
         self.SeeTable()
+
+        self.cursor.execute(" show columns from " + self.table_name)
+
+        columns_list = []
+        result = self.cursor.fetchall()
+        for row in result:
+            row[0].replace("(", "")
+            row[0].replace("'", "")
+            columns_list.append(row[0])
+    
+
+        self.show_table.setColumnCount(len(columns_list))
+        self.show_table.setHorizontalHeaderLabels(each for each in columns_list)
+
+        self.cursor.execute("select *  from " + self.table_name)
+
+        result1 = self.cursor.fetchall()
+        for i in range(len(result1)):
+            row = self.show_table.rowCount()
+            self.show_table.insertRow(row)
+            for j in range(len(columns_list)):
+                self.show_table.setItem(row, j, QTableWidgetItem(str(result1[i][j])))
+
+
 
     def tableOpenFile(self):
         name = QFileDialog.getOpenFileName(self)[0]

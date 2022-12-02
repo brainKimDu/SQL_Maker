@@ -203,8 +203,8 @@
     <rect>
      <x>310</x>
      <y>250</y>
-     <width>761</width>
-     <height>141</height>
+     <width>741</width>
+     <height>561</height>
     </rect>
    </property>
    <column>
@@ -229,10 +229,10 @@
   <widget class="QPushButton" name="btnInsert">
    <property name="geometry">
     <rect>
-     <x>150</x>
-     <y>410</y>
+     <x>310</x>
+     <y>840</y>
      <width>121</width>
-     <height>51</height>
+     <height>41</height>
     </rect>
    </property>
    <property name="text">
@@ -289,6 +289,35 @@
    </property>
    <property name="readOnly">
     <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QProgressBar" name="progressBar">
+   <property name="geometry">
+    <rect>
+     <x>440</x>
+     <y>840</y>
+     <width>501</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="maximum">
+    <number>100</number>
+   </property>
+   <property name="value">
+    <number>0</number>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>960</x>
+     <y>840</y>
+     <width>67</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
    </property>
   </widget>
  </widget>
