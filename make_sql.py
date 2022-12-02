@@ -227,7 +227,7 @@ def insert_data(cursor, local):
             print("\n")
 
             print("데이터 삽입 주의 사항! \n테이블의 컬럼수와 csv, excel의 컬럼수가 일치해야합니다.\n")
-            
+                
             sel_file = int(input("excel(xlsx)은 1번 csv는 2번 \n"))
             if(sel_file == 1):
                 try:
@@ -255,6 +255,8 @@ def insert_data(cursor, local):
                     sql = sql + ", "
             sql = sql + " );"
             print(sql)
+            
+            df = df.fillna(0)
 
             count = 0
             max = 1000
@@ -267,7 +269,7 @@ def insert_data(cursor, local):
                 if count >= max:
                     print(str(count) + " / " + str(len(df))  )
                     max = max + 1000
-                
+                    
             print("데이터 삽입 종료!! \n\n")
 
         except:
