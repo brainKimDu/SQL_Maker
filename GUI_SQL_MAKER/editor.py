@@ -76,8 +76,13 @@ class WindowClass(QMainWindow, from_class):
             self.local.commit()
             count += 1
             if count >= len(df)/max * cal:
-                self.progressBar.setValue((cal))
+                self.progressBar.setValue(cal)
                 cal += 1;
+
+        self.progressBar.setValue(100)
+
+        while (self.show_table.rowCount() > 0):
+           self.show_table.removeRow(0)
 
         self.cursor.execute(" show columns from " + stra)
 
@@ -123,6 +128,11 @@ class WindowClass(QMainWindow, from_class):
         sql2 = "drop table " + stra
         self.cursor.execute(sql2)
         self.SeeTable()
+        
+        while (self.show_table.rowCount() > 0):
+           self.show_table.removeRow(0)
+
+        
 
         
 
@@ -255,6 +265,8 @@ class WindowClass(QMainWindow, from_class):
             stra = item
             self.se_ta.setText(item)
 
+        while (self.show_table.rowCount() > 0):
+           self.show_table.removeRow(0)
 
         # select * from table
         self.cursor.execute(" show columns from " + stra)
