@@ -82,6 +82,46 @@
 
 
 ### 테이블 선택
+![image](https://user-images.githubusercontent.com/110883172/205498408-5c54179d-c312-40a8-bb04-84ef318696f8.png)
+- 테이블 선택 버튼을 클릭합니다.
+
+![image](https://user-images.githubusercontent.com/110883172/205498423-c022272e-3da2-4a52-b29d-bd1ed314941a.png)
+- 원하는 테이블을 선택합니다.
+
+
+
+## advanced mode
+![image](https://user-images.githubusercontent.com/110883172/205498444-5fdce9bb-007b-45c1-b0dd-d1baecd4a001.png)
+- 테이블을 선택하고 advanced 버튼을 클릭합니다.
+
+
+![image](https://user-images.githubusercontent.com/110883172/205498534-fc33b606-4ba1-415c-9fa4-cb0a6af07e6d.png)
+- mySQL syntax를 입력하면됩니다.
+- select와 from이 포함되는 문법이라면 조회가 가능합니다.
+- 그러나 union과 join처럼 2개의 테이블이 필요한 경우는 아직 구현하지 못 했습니다.
+
+
+- select 사용년월, 역명 from bus where 역명='원남동' 를 입력해보겠습니다.
+![image](https://user-images.githubusercontent.com/110883172/205498570-8a03d3ee-d78d-4bea-8d65-f3b589bea049.png)
+- 다음처럼 조회가 가능합니다.
+
+
+## To csv..
+![image](https://user-images.githubusercontent.com/110883172/205498570-8a03d3ee-d78d-4bea-8d65-f3b589bea049.png)
+- 방금 만들었던 이미지를 csv로 저장할 수 있습니다.
+- To csv.. 버튼을 클릭합니다.
+
+![image](https://user-images.githubusercontent.com/110883172/205498627-c33ab128-7f8e-4b8e-ad41-d8211514f7dc.png)
+-원남동으로 만들어보겠습니다.
+
+![image](https://user-images.githubusercontent.com/110883172/205498656-e69bd9f8-2544-44eb-b559-5f76e40d2c8c.png)
+- 성공적으로 csv파일로 만들어주었습니다.
+
+
+
+# 앞으로 구현해야할 것
+- Union, join을 구현할 예정입니다.
+- 손쉬운 사용모드를 구현하여 mysql문법을 몰라도 데이터를 추출할 수 있게 만들려고 합니다.
 
 
 
