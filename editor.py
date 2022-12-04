@@ -286,13 +286,18 @@ class WindowClass(QMainWindow, from_class):
             self.textEdit.setText("please push 'table 제작' button first!!")
             return
 
-        self.cursor.execute(self.sql)
-        #self.state_line_2.setText(" )
-        self.textEdit.setText("success make table!! name : " + self.table_name)
-        self.SeeTable()
+        try:
+            self.cursor.execute(self.sql)
+            #self.state_line_2.setText(" )
+            self.textEdit.setText("success make table!! name : " + self.table_name)
+            self.SeeTable()
+
+            
+        except:
+            self.textEdit.setText(self.table_name + " is already exists")
+            return
 
         self.cursor.execute(" show columns from " + self.table_name)
-
         columns_list = []
         result = self.cursor.fetchall()
         for row in result:
