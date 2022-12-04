@@ -24,10 +24,73 @@ class WindowClass(QMainWindow, from_class):
         self.btnDel.clicked.connect(self.del_table)
         self.btnInsert.clicked.connect(self.insert_data)
         self.progressBar.valueChanged.connect(self.printValue)
+        self.btnAdvance.clicked.connect(self.Advance)
 
         self.make_table_check = False
 
         self.login_check = False
+        self.table_str = ""
+
+    def Advance(self):
+        if self.login_check == False:
+            self.state_line.setText("Please Login first to continue")
+            return
+        #if self.table_str == "":
+        #    self.state_line_3.setText("no selected table")
+        #    return
+
+        text, ok = QInputDialog.getText(self, 'insert MySQL code', 'mySQL code :')
+        if ok and text:
+            sql = text
+        else:
+            return
+
+
+        while (self.show_table.rowCount() > 0):
+            self.show_table.removeRow(0)
+
+        columns_list = []
+            # select * from table
+        col_sql = sql.replace(" ", "")
+        if col_sql.find("select*") != -1 or col_sql.find("SELECT*") != -1 : 
+            self.cursor.execute("show columns from bye")
+            result = self.cursor.fetchall()
+            for row in result:
+                row[0].replace("(", "")
+                row[0].replace("'", "")
+                columns_list.append(row[0])
+        else:
+            col_sql = sql.split(" ")
+            start = False
+            col_str =""
+            for i in range(len(col_sql)):
+                if start == True:
+                    if col_sql[i] == 'from' or col_sql[i] == 'FROM':
+                        break
+                    else:
+                        col_str += (col_sql[i])
+                else:
+                    if col_sql[i] == "select" or col_sql[i] == 'SELECT':
+                        start = True
+
+            col_str = col_str.replace(" ", "")
+            col_str = col_str.split(",")
+            for i in range(len(col_str)):
+                columns_list.append(col_str[i])
+
+    
+
+        self.show_table.setColumnCount(len(columns_list))
+        self.show_table.setHorizontalHeaderLabels(each for each in columns_list)
+
+        self.cursor.execute(sql)
+        result1 = self.cursor.fetchall()
+        for i in range(len(result1)):
+            row = self.show_table.rowCount()
+            self.show_table.insertRow(row)
+            for j in range(len(columns_list)):
+                self.show_table.setItem(row, j, QTableWidgetItem(str(result1[i][j])))
+
         
     
     def printValue(self):
@@ -278,11 +341,11 @@ class WindowClass(QMainWindow, from_class):
     def connectDB(self):
         try:
             fun_local = mysql.connector.connect(
-            host = self.Uhost_line.text(),
+            host = "localhost", #self.Uhost_line.text(),
             port = 3306,
-            user = self.Uname_line.text(),
-            password = self.Upassword_line.text(),
-            database = self.Udatabase_line.text()
+            user =  "root", #self.Uname_line.text(),
+            password = "1234", #self.Upassword_line.text(),
+            database = "traffic" #self.Udatabase_line.text()
             )
             self.state_line.setText("YES!")
             self.local = fun_local #self 쓰면 클래스내에서 사용가능
@@ -334,7 +397,8 @@ class WindowClass(QMainWindow, from_class):
             self.se_ta.setText(item)
         else:
             return
-
+        
+        self.table_str = stra;
         while (self.show_table.rowCount() > 0):
            self.show_table.removeRow(0)
 
