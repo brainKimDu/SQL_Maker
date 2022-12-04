@@ -25,13 +25,20 @@ class WindowClass(QMainWindow, from_class):
         self.btnInsert.clicked.connect(self.insert_data)
         self.progressBar.valueChanged.connect(self.printValue)
 
-    
+        self.make_table_check = False
+
+        self.login_check = False
+        
     
     def printValue(self):
         pass
     
 
     def insert_data(self):
+        if self.login_check == False:
+            self.state_line.setText("Please Login first to continue")
+            return
+
         items = []
         for result_iterator in self.result:
             items.append(result_iterator[0])
@@ -41,8 +48,12 @@ class WindowClass(QMainWindow, from_class):
 
         if ok and item:
             stra = item
+        else:
+            return
         
         name = QFileDialog.getOpenFileName(self)[0]
+        if name == "":
+            return
         if name[-3:] == "csv":
             try:
                 df = pd.DataFrame(pd.read_csv(name))
@@ -107,14 +118,18 @@ class WindowClass(QMainWindow, from_class):
                 self.show_table.setItem(row, j, QTableWidgetItem(str(result1[i][j])))
 
         
-
-        
-
-
-        
-
-
     def del_table(self):
+        if self.login_check == False:
+            self.state_line.setText("Please Login first to continue")
+            return
+
+        sql_sea = "show tables"
+        self.cursor.execute(sql_sea)
+        result = self.cursor.fetchall()
+
+        if len(result) == 0:
+            return
+
         items = []
         for result_iterator in self.result:
             items.append(result_iterator[0])
@@ -125,6 +140,9 @@ class WindowClass(QMainWindow, from_class):
         if ok and item:
             stra = item
 
+        else:
+            return
+
         sql2 = "drop table " + stra
         self.cursor.execute(sql2)
         self.SeeTable()
@@ -133,13 +151,14 @@ class WindowClass(QMainWindow, from_class):
            self.show_table.removeRow(0)
 
         
-
-        
-
-
-        
-
     def make_table(self):
+        if self.login_check == False:
+            self.state_line.setText("Please Login first to continue")
+            return
+        
+        if self.make_table_check == False:
+            return
+
         self.cursor.execute(self.sql)
         #self.state_line_2.setText(" )
         self.textEdit.setText("success make table!! name : " + self.table_name)
@@ -154,7 +173,6 @@ class WindowClass(QMainWindow, from_class):
             row[0].replace("'", "")
             columns_list.append(row[0])
     
-
         self.show_table.setColumnCount(len(columns_list))
         self.show_table.setHorizontalHeaderLabels(each for each in columns_list)
 
@@ -166,11 +184,20 @@ class WindowClass(QMainWindow, from_class):
             self.show_table.insertRow(row)
             for j in range(len(columns_list)):
                 self.show_table.setItem(row, j, QTableWidgetItem(str(result1[i][j])))
+            
+        self.make_table_check = False
 
 
 
     def tableOpenFile(self):
+        if self.login_check == False:
+            self.state_line.setText("Please Login first to continue")
+            return
+
         name = QFileDialog.getOpenFileName(self)[0]
+        if name == "":
+            return
+
         if name[-3:] == "csv":
             try:
                 df = pd.DataFrame(pd.read_csv(name))
@@ -188,6 +215,8 @@ class WindowClass(QMainWindow, from_class):
         text, ok = QInputDialog.getText(self, 'make table', 'table name :')
         if ok and text:
             self.table_name = text
+        else:
+            return
 
         table_type_list = []
         df_type = pd.DataFrame(
@@ -219,34 +248,39 @@ class WindowClass(QMainWindow, from_class):
 
         self.textEdit.setText("check sql code \n\n" + self.sql)
 
+        self.make_table_check = True
+
 
 
     def connectDB(self):
-        print("연결")
         try:
             fun_local = mysql.connector.connect(
-            host = self.Uhost_line.text(),
+            host = "localhost", #self.Uhost_line.text(),
             port = 3306,
-            user = self.Uname_line.text(),
-            password = self.Upassword_line.text(),
-            database = self.Udatabase_line.text()
+            user = "root", #self.Uname_line.text(),
+            password = "1234", #self.Upassword_line.text(),
+            database = "traffic"  #self.Udatabase_line.text()
             )
-            
             self.state_line.setText("YES!")
             self.local = fun_local #self 쓰면 클래스내에서 사용가능
             self.cursor = fun_local.cursor(buffered=True)
+            self.login_check = True
             self.SeeTable()
-            
-
         except:
             self.state_line.setText("NO!")
     
     def SeeTable(self):
+        if self.login_check == False:
+            self.state_line.setText("Please Login first to continue")
+            return
+
         sql_sea = "show tables"
         self.cursor.execute(sql_sea)
         self.result = self.cursor.fetchall()
+
         while (self.tableWidget.rowCount() > 0):
            self.tableWidget.removeRow(0)
+
         for result_iterator in self.result:
             row = self.tableWidget.rowCount()
             self.tableWidget.insertRow(row)
@@ -254,8 +288,19 @@ class WindowClass(QMainWindow, from_class):
         
 
     def showTable(self):
+        if self.login_check == False:
+            self.state_line.setText("Please Login first to continue")
+            return
+
+        sql_sea = "show tables"
+        self.cursor.execute(sql_sea)
+        result = self.cursor.fetchall()
+
+        if len(result) == 0:
+            return
+
         items = []
-        for result_iterator in self.result:
+        for result_iterator in result:
             items.append(result_iterator[0])
 
         item, ok = QInputDialog.getItem(self, 'QInputDialog - table',
@@ -264,6 +309,8 @@ class WindowClass(QMainWindow, from_class):
         if ok and item:
             stra = item
             self.se_ta.setText(item)
+        else:
+            return
 
         while (self.show_table.rowCount() > 0):
            self.show_table.removeRow(0)
