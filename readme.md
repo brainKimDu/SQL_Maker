@@ -53,4 +53,38 @@
 ![image](https://user-images.githubusercontent.com/110883172/205497887-b190d1b5-ee38-442b-8201-6fa273dbd4d0.png)
 - 테이블이 성공적으로 만들어졌습니다.
 
+### 테이블에 데이터 삽입
+![image](https://user-images.githubusercontent.com/110883172/205498197-5366fa00-5411-49df-8999-a9e6e76c3f9a.png)
+- 데이터 삽입 버튼을 클릭합니다.
+
+![image](https://user-images.githubusercontent.com/110883172/205498217-aea46f60-bc51-4eaa-996f-21570a6c8df2.png)
+- 데이터를 삽입할 테이블을 선택합니다.
+
+![image](https://user-images.githubusercontent.com/110883172/205498230-8e1c70b0-db68-4d26-b933-42264eef2dca.png)
+- 데이터파일을 선택합니다. 컬럼수와 타입이 일치해야합니다. (같은파일이여야 합니다)
+
+![image](https://user-images.githubusercontent.com/110883172/205498254-95e7cd9a-4781-4ece-96e5-78a8e84652be.png)
+- progress바가 100%가 될 때까지 기다리세요.
+
+![image](https://user-images.githubusercontent.com/110883172/205498277-b1fd226c-4ecd-492a-94b3-ca6ec25fd096.png)
+- 데이터 삽입이 완료되었습니다.
+
+
+### 테이블 삭제
+![image](https://user-images.githubusercontent.com/110883172/205498318-3431383f-454f-4d05-863d-244d415cb369.png)
+- table 삭제 버튼을 클릭합니다.
+
+![image](https://user-images.githubusercontent.com/110883172/205498327-f5882768-9a55-4055-a33e-92c766b87c53.png)
+- 테이블을 선택하고 OK를 누릅니다.
+
+![image](https://user-images.githubusercontent.com/110883172/205498347-6a53753e-daf1-43c9-9e87-0e993159e879.png)
+- 성공적으로 테이블이 삭제되었습니다.
+
+
+### 테이블 선택
+
+
+
+
+
 
