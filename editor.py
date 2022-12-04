@@ -295,6 +295,7 @@ class WindowClass(QMainWindow, from_class):
             
         except:
             self.textEdit.setText(self.table_name + " is already exists")
+            self.make_table_check = False
             return
 
         self.cursor.execute(" show columns from " + self.table_name)
