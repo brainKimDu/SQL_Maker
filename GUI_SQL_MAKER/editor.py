@@ -74,6 +74,10 @@ class WindowClass(QMainWindow, from_class):
                 df = pd.DataFrame(pd.read_excel(name))
             except:
                 df = pd.DataFrame(pd.read_excel(name, encoding='EUC-KR'))
+        
+        else:
+            self.textEdit.setText("you choice worng file \n csv, xlxs only")
+            return
 
         df = df.fillna(0)
         x_count = df.shape[1]
@@ -98,7 +102,7 @@ class WindowClass(QMainWindow, from_class):
                     self.progressBar.setValue(cal)
                     cal += 1;
         except:
-            self.textEdit.setText("you insert wrong dataFile \n plear check your csv, xlsx file\n column's length or column's type")
+            self.textEdit.setText("you insert wrong dataFile \n please check your csv, xlsx file\n column's length or column's type")
             return
 
         self.progressBar.setValue(100)
@@ -226,6 +230,10 @@ class WindowClass(QMainWindow, from_class):
             except:
                 df = pd.DataFrame(pd.read_excel(name, encoding='EUC-KR'))
 
+        else:
+            self.textEdit.setText("you choice worng file \n csv, xlxs only")
+            return
+
         df_list = df.columns.values.tolist()
         text, ok = QInputDialog.getText(self, 'make table', 'table name :')
         if ok and text:
@@ -270,11 +278,11 @@ class WindowClass(QMainWindow, from_class):
     def connectDB(self):
         try:
             fun_local = mysql.connector.connect(
-            host = "localhost", #self.Uhost_line.text(),
+            host = self.Uhost_line.text(),
             port = 3306,
-            user = "root", #self.Uname_line.text(),
-            password = "1234", #self.Upassword_line.text(),
-            database = "traffic"  #self.Udatabase_line.text()
+            user = self.Uname_line.text(),
+            password = self.Upassword_line.text(),
+            database = self.Udatabase_line.text()
             )
             self.state_line.setText("YES!")
             self.local = fun_local #self 쓰면 클래스내에서 사용가능
