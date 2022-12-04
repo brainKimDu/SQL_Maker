@@ -14,3 +14,8 @@
 - xlrd
 
 ## 사용법
+### 초기화면
+![image](https://user-images.githubusercontent.com/110883172/205497212-dbfb6c95-cb35-476e-a03c-efb0b576bc11.png)
+
+### 초기화면
+Username
