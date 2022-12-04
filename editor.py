@@ -184,7 +184,7 @@ class WindowClass(QMainWindow, from_class):
                 df = pd.DataFrame(pd.read_excel(name, encoding='EUC-KR'))
         
         else:
-            self.textEdit.setText("you choice worng file \n csv, xlxs only")
+            self.textEdit.setText("you choice worng file \n csv, xlsx only")
             return
 
         df = df.fillna(0)
@@ -339,7 +339,7 @@ class WindowClass(QMainWindow, from_class):
                 df = pd.DataFrame(pd.read_excel(name, encoding='EUC-KR'))
 
         else:
-            self.textEdit.setText("you choice worng file \n csv, xlxs only")
+            self.textEdit.setText("you choice worng file \n csv, xlsx only")
             return
 
         df_list = df.columns.values.tolist()
@@ -386,11 +386,11 @@ class WindowClass(QMainWindow, from_class):
     def connectDB(self):
         try:
             fun_local = mysql.connector.connect(
-            host = "localhost", #self.Uhost_line.text(),
+            host = self.Uhost_line.text(),
             port = 3306,
-            user =  "root", #self.Uname_line.text(),
-            password = "1234", #self.Upassword_line.text(),
-            database = "traffic" #self.Udatabase_line.text()
+            user =  self.Uname_line.text(),
+            password = self.Upassword_line.text(),
+            database = self.Udatabase_line.text()
             )
             self.state_line.setText("YES!")
             self.local = fun_local #self 쓰면 클래스내에서 사용가능
