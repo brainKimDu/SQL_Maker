@@ -39,8 +39,16 @@ class WindowClass(QMainWindow, from_class):
             self.state_line.setText("Please Login first to continue")
             return
 
+        sql_sea = "show tables"
+        self.cursor.execute(sql_sea)
+        result = self.cursor.fetchall()
+        if len(result) == 0:
+            self.textEdit.setText("No table in database")
+            return
+
+
         items = []
-        for result_iterator in self.result:
+        for result_iterator in result:
             items.append(result_iterator[0])
 
         item, ok = QInputDialog.getItem(self, 'QInputDialog - insert data',
@@ -81,14 +89,17 @@ class WindowClass(QMainWindow, from_class):
         cal = 1
         max = 100
 
-
-        for i, row in df.iterrows():
-            self.cursor.execute(sql2, tuple(row))
-            self.local.commit()
-            count += 1
-            if count >= len(df)/max * cal:
-                self.progressBar.setValue(cal)
-                cal += 1;
+        try:
+            for i, row in df.iterrows():
+                self.cursor.execute(sql2, tuple(row))
+                self.local.commit()
+                count += 1
+                if count >= len(df)/max * cal:
+                    self.progressBar.setValue(cal)
+                    cal += 1;
+        except:
+            self.textEdit.setText("you insert wrong dataFile \n plear check your csv, xlsx file\n column's length or column's type")
+            return
 
         self.progressBar.setValue(100)
 
@@ -107,7 +118,6 @@ class WindowClass(QMainWindow, from_class):
 
         self.show_table.setColumnCount(len(columns_list))
         self.show_table.setHorizontalHeaderLabels(each for each in columns_list)
-
         self.cursor.execute("select *  from " + stra)
 
         result1 = self.cursor.fetchall()
@@ -116,6 +126,10 @@ class WindowClass(QMainWindow, from_class):
             self.show_table.insertRow(row)
             for j in range(len(columns_list)):
                 self.show_table.setItem(row, j, QTableWidgetItem(str(result1[i][j])))
+        
+        self.textEdit.setText(str(len(df)) +  " data insert complete ! \ntotal : " + str(len(result1)))
+        
+        
 
         
     def del_table(self):
@@ -157,6 +171,7 @@ class WindowClass(QMainWindow, from_class):
             return
         
         if self.make_table_check == False:
+            self.textEdit.setText("please push 'table 제작' button first!!")
             return
 
         self.cursor.execute(self.sql)
