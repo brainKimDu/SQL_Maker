@@ -108,11 +108,11 @@
 
 ## To csv..
 ![image](https://user-images.githubusercontent.com/110883172/205498570-8a03d3ee-d78d-4bea-8d65-f3b589bea049.png)
-- 방금 만들었던 이미지를 csv로 저장할 수 있습니다.
+- 조회한 정보를 csv로 저장할 수 있습니다.
 - To csv.. 버튼을 클릭합니다.
 
 ![image](https://user-images.githubusercontent.com/110883172/205498627-c33ab128-7f8e-4b8e-ad41-d8211514f7dc.png)
--원남동으로 만들어보겠습니다.
+- 원남동으로 만들어보겠습니다.
 
 ![image](https://user-images.githubusercontent.com/110883172/205498656-e69bd9f8-2544-44eb-b559-5f76e40d2c8c.png)
 - 성공적으로 csv파일로 만들어주었습니다.
